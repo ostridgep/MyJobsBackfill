@@ -3,15 +3,15 @@
 <!-- config.xml reference: https://build.phonegap.com/docs/config-xml -->
     <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
-        id        = "com.phonegap.MyAGA2"
-        version   = "1.150616.1600">
+        id        = "com.pjo.UI5App1"
+        version   = "1.150324.1330">
 
-    <name>MyAGA</name>
+    <name>UI5App1</name>
     <description>
-        MyAGA Tablet.
+        UI5 App1.
     </description>
 
-    <author href="#" email="Paul.ostridge@cgi.com">
+    <author href="#" email="Paul@ostridge.com">
         Paul Ostridge
     </author>
 
@@ -65,12 +65,10 @@
 
     <!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
-   
-    	<gap:plugin name="com.millerjames01.sqlite-plugin" version="1.0.1" />
- 	<gap:plugin name="com.phonegap.plugins.barcodescanner"/>   
+  
    
  <icon src="icon.png" />
-    <gap:splash src="splash.png" />
+
 
 
     <access origin="*"/>
