@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+
+
+<script src="js/html5sql.js"></script>  
+<script src="js/MyJobsDB.js"></script>
+<script src="js/MyJobsUtils.js"></script>
+  <script type='text/javascript' src='js/jquery-1.11.1.min.js'></script>
+  <script type='text/javascript' src='js/jquery.mobile-1.4.2.min.js'></script>
+<script src="js/jSignature.js"></script>
+
+<script src="js/plugins/jSignature.CompressorSVG.js"></script>
+<script src="js/plugins/jSignature.UndoButton.js"></script> 
+<script src="js/plugins/signhere/jSignature.SignHere.js"></script> 
+
+
+
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+<style type="text/css">
+
+	div {
+		margin-top:1em;
+		margin-bottom:1em;
+	}
+	input {
+		padding: .5em;
+		margin: .5em;
+	}
+	select {
+		padding: .5em;
+		margin: .5em;
+	}
+	
+	#signatureparent {
+		color:darkblue;
+		background-color:darkgrey;
+		/*max-width:600px;*/
+	
+		padding:20px;
+	}
+	
+	/*This is the div within which the signature canvas is fitted*/
+	#signature {
+		border: 2px dotted black;
+		background-color:lightgrey;
+	}
+
+	/* Drawing the 'gripper' for touch-enabled devices */ 
+	html.touch #content {
+		float:left;
+		width:92%;
+	}
+	html.touch #scrollgrabber {
+		float:right;
+		width:4%;
+		margin-right:2%;
+		background-image:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAFCAAAAACh79lDAAAAAXNSR0IArs4c6QAAABJJREFUCB1jmMmQxjCT4T/DfwAPLgOXlrt3IwAAAABJRU5ErkJggg==)
+	}
+	html.borderradius #scrollgrabber {
+		border-radius: 1em;
+	}
+	 
+</style>
+</head>
+<body>
+<SCRIPT>
+
+html5sql.openDatabase("com.PJO.MyJobs","MyJobs", 5*1024*1024);	
+
+
+$(document).on('pageshow', '#JobsGetSignature' ,function(){
+
+        if($('#signature').find('.jSignature').length == 0){
+           $("#signature").jSignature({'UndoButton':true,  'scaleX': .5,
+    'trim': true})
+        }
+});	
+
+</SCRIPT>
+<div data-role="page" id="JobsGetSignature"> 
+	<div  id="header" data-role="header" data-position="fixed">
+	
+		<table width = "100%">
+			<TR height="70px">
+				<TD Valign="bottom" align="left" width ="20%"><a style="font-size: 100%" onClick="GoToGasJob()" class="open-popup-link ui-btn ui-btn-width ui-btn-inline ui-icon-back ui-corner-all ui-shadow ui-btn-icon-left">
+				Cancel</a></td>
+
+				<TD valign="Top" align= "center" width = "60%"><h1 style="font-size: 150%"><B>MyJobs - Login</B></H1></TD>
+				<TD Valign="bottom" align="left" width ="10%"><a style="font-size: 100%" onClick='ClearSignature()' class="open-popup-link ui-btn ui-btn-width ui-btn-inline ui-icon-delete ui-corner-all ui-shadow ui-btn-icon-left">
+				Clear</a></td>
+				<TD Valign="bottom" align="left" width ="10%"><a style="font-size: 100%" onClick='SaveSignature()' class="open-popup-link ui-btn ui-btn-width ui-btn-inline ui-icon-check ui-corner-all ui-shadow ui-btn-icon-left">
+				Save</a></td>
+			</TR>
+		</table>			
+	</div> 
+	<div  data-role="content">
+	<div id="signatureparent">
+		
+		<div id="signature"></div></div>
+
+	
+
+<div id="scrollgrabber"></div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+function GoToGasJob(){
+
+loc='JobsOrdersDetailsGas.htm?JobNo='+JobNo+'&Status='+Status+'&NotifNo='+NotifNo
+window.location.href=loc
+}
+var JobNo = getURLParameters("JobNo");
+var Status = getURLParameters("Status");
+var NotifNo = getURLParameters("NotifNo");
+var res = JobNo.split('-')
+var OrderNo = res[0]
+var OpNo = res[1]
+var data
+
+function ClearSignature(){
+		$("#signature").jSignature('reset')
+}
+function SaveSignature(){
+		data = $("#signature").jSignature('getData', 'svg')
+
+
+		UpdateSignatureSurveyHDR(escape(data[1]))
+		
+}
+function UpdateSignatureSurveyHDR(signaturedata)
+{
+
+
+		SQLStatement='UPDATE GASSurveyHDR '
+
+		SQLStatement+='set signed = "'+signaturedata+'" where orderno = "'+OrderNo+'" and opno = "'+OpNo+'"'
+
+
+
+		html5sql.process(SQLStatement,
+			 function(transaction, results, rowsArray){
+				
+				//alert("hdrsuccess");
+				GoToGasJob()
+			 },
+			 function(error, statement){
+				//alert("hdrfail:"+SQLStatement)
+			 }        
+			);
+	
+}
+
+</script>
+</body>
+</html>

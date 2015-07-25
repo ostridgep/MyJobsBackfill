@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>Jobs - Settings - Force Sync
+  </title>
+<script src="js/html5sql.js"></script>  
+<script src="js/MyJobsDB.js"></script>
+<script src="js/MyJobsUtils.js"></script>
+  <script type='text/javascript' src='js/jquery-1.11.1.min.js'></script>
+  <script type='text/javascript' src='js/jquery.mobile-1.4.2.min.js'></script>
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.2.min.css">
+
+<script src="js/jquery.mobile.datepicker.js"></script>
+<script src="js/jquery-ui/datepicker.js"></script>
+
+
+<script type='text/javascript' src="tablesorter/js/jquery.tablesorter.js"></script>
+<script type='text/javascript' src="tablesorter/js/jquery.tablesorter.widgets.js"></script>
+
+<script src="js/jquery.magnific-popup.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="tablesorter/css/theme.jui.css">
+<link rel="stylesheet" type="text/css" href="tablesorter/css/theme.bootstrap.css">
+<link rel="stylesheet" type="text/css" href="tablesorter/docs/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
+<link rel="stylesheet" href="css/magnific-popup.css" />
+
+
+
+
+        		
+		
+
+<script>
+html5sql.openDatabase("com.PJO.MyJobs","MyJobs", 5*1024*1024);	
+</script>
+  <style type='text/css'>
+ .block {
+    border: 1px solid grey;
+    width: 95%;
+
+    display: inline-block;
+    margin: 1em 1em 1em 1em;
+	border-radius: 15px;
+    left:50px
+}
+  .highlight {
+
+     box-shadow: 5px 5px 5px #888888;
+
+  }
+.ui-btn-width {
+    width: 200px !important;
+}
+  </style>
+<script>
+ 
+function ForceTheSync()
+{
+
+if($('#ForceSyncTransactional').prop('checked')==true){
+
+	SetConfigParam('LASTSYNC_REFERENCE', "20120101010101");
+	syncTransactional()
+
+};
+if($('#ForceSyncReference').prop('checked')==true){
+	SetConfigParam('LASTSYNC_TRANSACTIONAL', "20120101010101");
+	syncReference()
+
+	};
+if($('#ForceSyncUpload').prop('checked')==true){
+	SetConfigParam('LASTSYNC_UPLOAD', "20120101010101");
+	syncUpload()
+	};
+
+}
+
+</script>
+  
+</head>
+<body>
+<div align="center" data-role="page" id="JobsSettingsForceSync"> 
+
+	<div  id="header" data-role="header" data-position="fixed">
+			<table width = "100%">
+			<TR height="70px">
+				<TD width = "20%"  Valign="bottom" align="left"><a style="font-size: 100%" href="javascript:window.location.href='JobsSettings.htm'" class="ui-btn ui-btn-width ui-btn-inline ui-icon-gear ui-corner-all ui-shadow ui-btn-icon-left">
+				Settings</a></td>
+				
+				<TD width = "60%" valign="Top" align= "center"><h1 style="font-size: 150%"><B>MyJobs - Settings - Force Sync</B></H1></TD>
+			
+				<TD width = "20%" Valign="bottom" align="right"></TD>
+			</TR>
+		</table>
+	</div> 
+	<div  data-role="content">	
+		<div  align="center"> 
+			<div id="right1" align="center" class="block highlight">
+
+					<fieldset data-role="controlgroup" width="90%">
+						<label for="ForceSyncTransactional">Transactional</label>
+						<input type="checkbox" name="ForceSyncTransactional" id="ForceSyncTransactional"/>
+						<label for="ForceSyncReference">Reference</label>
+						<input type="checkbox" name="ForceSyncReference" id="ForceSyncReference"/>						
+						<label for="ForceSyncUpload">Upload</label>
+						<input type="checkbox" name="ForceSyncUpload" id="ForceSyncUpload"/>
+					</fieldset>
+					<BR>
+						<a style="font-size: 120%" href = "#" class="ui-btn ui-corner-all ui-btn-inline" onclick = "ForceTheSync()" data-role="button" >Force The Sync</a>
+			
+			</div>
+		</div>
+	</div>
+
+</div> 
+
+</body>
+
+
+</html>
+
